@@ -1,15 +1,25 @@
 package com.example.android.politicalpreparedness.network
 
+import com.example.android.politicalpreparedness.network.jsonadapter.ElectionAdapter
+import com.example.android.politicalpreparedness.network.models.ElectionResponse
+import com.example.android.politicalpreparedness.network.models.RepresentativeResponse
+import com.example.android.politicalpreparedness.network.models.VoterInfoResponse
 import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
 import com.squareup.moshi.Moshi
+import com.squareup.moshi.adapters.Rfc3339DateJsonAdapter
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
+import retrofit2.http.GET
+import retrofit2.http.Query
+import java.util.*
 
 private const val BASE_URL = "https://www.googleapis.com/civicinfo/v2/"
 
-// TODO: Add adapters for Java Date and custom adapter ElectionAdapter (included in project)
+// Add JavaDate & ElectionAdapter to builder
 private val moshi = Moshi.Builder()
+        .add(Date::class.java, Rfc3339DateJsonAdapter())
+        .add(ElectionAdapter())
         .add(KotlinJsonAdapterFactory())
         .build()
 
@@ -25,11 +35,22 @@ private val retrofit = Retrofit.Builder()
  */
 
 interface CivicsApiService {
-    //TODO: Add elections API Call
+    //Added elections API Call
+    @GET("elections")
+    suspend fun electionQuery() : ElectionResponse
 
-    //TODO: Add voterinfo API Call
+    //Added voterinfo API Call
+    @GET("voterinfo")
+    suspend fun voterInfoQuery(
+        @Query("address") address: String,
+        @Query("electionId") electionId: Long
+    ) : VoterInfoResponse
 
-    //TODO: Add representatives API Call
+    //Added representatives API Call
+    @GET("representatives")
+    suspend fun representativeQuery(
+        @Query("address") address: String
+    ) : RepresentativeResponse
 }
 
 object CivicsApi {

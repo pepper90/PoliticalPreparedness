@@ -1,9 +1,9 @@
 <component name="libraryTable">
   <library name="Gradle: androidx.lifecycle:lifecycle-livedata-core-ktx:2.5.0-alpha03@aar">
     <CLASSES>
-      <root url="jar://$USER_HOME$/.gradle/caches/transforms-3/2c6e4064f6c6465a5f7f0e6ad2b627ad/transformed/jetified-lifecycle-livedata-core-ktx-2.5.0-alpha03/jars/classes.jar!/" />
-      <root url="file://$USER_HOME$/.gradle/caches/transforms-3/2c6e4064f6c6465a5f7f0e6ad2b627ad/transformed/jetified-lifecycle-livedata-core-ktx-2.5.0-alpha03/res" />
-      <root url="file://$USER_HOME$/.gradle/caches/transforms-3/2c6e4064f6c6465a5f7f0e6ad2b627ad/transformed/jetified-lifecycle-livedata-core-ktx-2.5.0-alpha03/AndroidManifest.xml" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-3/85931db4394bbca2facb0d17c4468e7f/transformed/jetified-lifecycle-livedata-core-ktx-2.5.0-alpha03/AndroidManifest.xml" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-3/85931db4394bbca2facb0d17c4468e7f/transformed/jetified-lifecycle-livedata-core-ktx-2.5.0-alpha03/res" />
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-3/85931db4394bbca2facb0d17c4468e7f/transformed/jetified-lifecycle-livedata-core-ktx-2.5.0-alpha03/jars/classes.jar!/" />
     </CLASSES>
     <JAVADOC />
     <SOURCES>
