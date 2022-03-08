@@ -4,7 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-
+        <variable
+            name="viewModel"
+            type="com.example.android.politicalpreparedness.election.ElectionsViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -21,7 +23,9 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            tools:listitem="@layout/item_election"/>
+            tools:listitem="@layout/item_election"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            listData="@{viewModel.upcomingElectionsResponse.elections}"/>
 
         <View
             android:id="@+id/view"
@@ -42,6 +46,17 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/view"
             tools:listitem="@layout/item_election"/>
+
+        <ImageView
+            android:id="@+id/status_image"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:civicApiStatus="@{viewModel.status}"
+            android:contentDescription="@string/loading_spinner" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
