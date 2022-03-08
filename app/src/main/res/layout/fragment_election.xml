@@ -15,6 +15,16 @@
         android:padding="@dimen/dp20"
         tools:context="com.example.android.politicalpreparedness.MainActivity">
 
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/upcoming_elections_header"
+            style="@style/MyRecyclerViewHeaders"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/upcoming_election"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/upcoming_elections_rv"
             android:layout_width="match_parent"
@@ -22,7 +32,7 @@
             app:layout_constraintBottom_toTopOf="@+id/view"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/upcoming_elections_header"
             tools:listitem="@layout/item_election"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             listData="@{viewModel.upcomingElectionsResponse.elections}"/>
@@ -37,6 +47,16 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/saved_elections_header"
+            style="@style/MyRecyclerViewHeaders"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/saved_election"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/view"/>
+
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/saved_elections_rv"
             android:layout_width="match_parent"
@@ -44,7 +64,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/view"
+            app:layout_constraintTop_toBottomOf="@+id/saved_elections_header"
             tools:listitem="@layout/item_election"/>
 
         <ImageView

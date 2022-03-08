@@ -19,7 +19,7 @@
 
     <!-- RECYCLER VIEW HEADER STYLE -->
     <style name="MyRecyclerViewHeaders" parent="Widget.MaterialComponents.TextView">
-        <item name="android:padding">@dimen/dp8</item>
+        <item name="android:paddingVertical">@dimen/dp8</item>
         <item name="android:textStyle">bold</item>
         <item name="android:textColor">@color/gray50</item>
         <item name="android:textSize">25sp</item>
