@@ -3,6 +3,7 @@ package com.example.android.politicalpreparedness.election
 import android.app.Application
 import androidx.lifecycle.*
 import com.example.android.politicalpreparedness.network.CivicsApi
+import com.example.android.politicalpreparedness.network.models.Election
 import com.example.android.politicalpreparedness.network.models.ElectionResponse
 import kotlinx.coroutines.launch
 
@@ -43,5 +44,17 @@ class ElectionsViewModel(application: Application): AndroidViewModel(application
         }
     }
 
-    //TODO: Create functions to navigate to saved or upcoming election voter info
+    //Created functions to navigate to saved or upcoming election voter info
+    private val _navigateToVoterInfo = MutableLiveData<Election?>()
+    val navigateToDetailElection: LiveData<Election?>
+        get() = _navigateToVoterInfo
+
+    fun onElectionClicked(asteroid: Election) {
+        _navigateToVoterInfo.value = asteroid
+    }
+
+    fun onElectionNavigated() {
+        _navigateToVoterInfo.value = null
+    }
+
 }

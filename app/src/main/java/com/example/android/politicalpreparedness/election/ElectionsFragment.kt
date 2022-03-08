@@ -1,12 +1,16 @@
 package com.example.android.politicalpreparedness.election
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProvider
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
+import androidx.navigation.Navigation.findNavController
+import androidx.navigation.fragment.findNavController
 import com.example.android.politicalpreparedness.R
 import com.example.android.politicalpreparedness.databinding.FragmentElectionBinding
 import com.example.android.politicalpreparedness.election.adapter.ElectionListAdapter
@@ -31,16 +35,29 @@ class ElectionsFragment: Fragment() {
         binding.viewModel = viewModel
 
         //TODO: Link elections to voter info
+        viewModel.navigateToDetailElection.observe(viewLifecycleOwner) { election ->
+            if (election != null) {
+                findNavController().navigate(
+                    ElectionsFragmentDirections.actionElectionsFragmentToVoterInfoFragment(
+                        election
+                    )
+                )
+                viewModel.onElectionNavigated()
+                Log.d(
+                    TAG,
+                    "ID: ${election.id}, NAME: ${election.name}, DIVISION: ${election.division}"
+                )
+            }
+        }
 
         //TODO: Initiate recycler adapters
         binding.upcomingElectionsRv.adapter = ElectionListAdapter(
-            ElectionListener { election ->  }
+            ElectionListener { election ->
+                viewModel.onElectionClicked(election)
+            }
         )
 
-//        viewModel.upcomingElectionsResponse.observe(viewLifecycleOwner) { upcomingElections ->
-//            // Populate & refresh adapter via Live Data
-//            upcomingElectionsAdapter.submitList(upcomingElections?.elections)
-//        }
+
 
         //TODO: Populate recycler adapters
         return binding.root
@@ -49,3 +66,5 @@ class ElectionsFragment: Fragment() {
     //TODO: Refresh adapters when fragment loads
 
 }
+
+private const val TAG = "FragmentElection"
