@@ -71,6 +71,9 @@ dependencies {
     implementation "com.github.bumptech.glide:glide:$version_glide"
     annotationProcessor "com.github.bumptech.glide:compiler:$version_glide"
 
+    //Work manager
+    implementation "android.arch.work:work-runtime-ktx:$version_work"
+
     //Room
     implementation "androidx.room:room-runtime:$version_room"
     kapt "androidx.room:room-compiler:$version_room"

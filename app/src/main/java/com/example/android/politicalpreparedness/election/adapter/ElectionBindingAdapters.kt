@@ -7,7 +7,7 @@ import android.widget.TextView
 import androidx.databinding.BindingAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.android.politicalpreparedness.R
-import com.example.android.politicalpreparedness.election.CivicApiStatus
+//import com.example.android.politicalpreparedness.election.CivicApiStatus
 import com.example.android.politicalpreparedness.network.models.Election
 import java.util.*
 
@@ -31,19 +31,24 @@ fun bindRecyclerView(recyclerView: RecyclerView, data: List<Election>?) {
     adapter.submitList(data)
 }
 
-@BindingAdapter("civicApiStatus")
-fun bindStatus(statusImageView: ImageView, status: CivicApiStatus?) {
-    when (status) {
-        CivicApiStatus.LOADING -> {
-            statusImageView.visibility = View.VISIBLE
-            statusImageView.setImageResource(R.drawable.loading_animation)
-        }
-        CivicApiStatus.ERROR -> {
-            statusImageView.visibility = View.VISIBLE
-            statusImageView.setImageResource(R.drawable.ic_connection_error)
-        }
-        else -> {
-            statusImageView.visibility = View.GONE
-        }
-    }
+@BindingAdapter("goneIfNotNull")
+fun goneIfNotNull(view: View, it: Any?) {
+    view.visibility = if (it != null) View.GONE else View.VISIBLE
 }
+
+//@BindingAdapter("civicApiStatus")
+//fun bindStatus(statusImageView: ImageView, status: CivicApiStatus?) {
+//    when (status) {
+//        CivicApiStatus.LOADING -> {
+//            statusImageView.visibility = View.VISIBLE
+//            statusImageView.setImageResource(R.drawable.loading_animation)
+//        }
+//        CivicApiStatus.ERROR -> {
+//            statusImageView.visibility = View.VISIBLE
+//            statusImageView.setImageResource(R.drawable.ic_connection_error)
+//        }
+//        else -> {
+//            statusImageView.visibility = View.GONE
+//        }
+//    }
+//}

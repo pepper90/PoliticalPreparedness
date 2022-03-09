@@ -18,7 +18,7 @@ abstract class ElectionDatabase: RoomDatabase() {
         @Volatile
         private var INSTANCE: ElectionDatabase? = null
 
-        fun getInstance(context: Context): ElectionDatabase {
+        fun getDatabase(context: Context): ElectionDatabase {
             synchronized(this) {
                 var instance = INSTANCE
                 if (instance == null) {
@@ -27,7 +27,6 @@ abstract class ElectionDatabase: RoomDatabase() {
                             ElectionDatabase::class.java,
                             "election_database"
                     )
-                            .fallbackToDestructiveMigration()
                             .build()
 
                     INSTANCE = instance
@@ -36,7 +35,5 @@ abstract class ElectionDatabase: RoomDatabase() {
                 return instance
             }
         }
-
     }
-
 }
