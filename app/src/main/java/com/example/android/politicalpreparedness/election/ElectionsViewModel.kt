@@ -9,7 +9,7 @@ import kotlinx.coroutines.launch
 
 enum class CivicApiStatus { LOADING, ERROR, DONE }
 
-//TODO: Construct ViewModel and provide election datasource
+// Construct ViewModel and provide election datasource
 class ElectionsViewModel(application: Application): AndroidViewModel(application) {
 
     private val _status = MutableLiveData<CivicApiStatus>()

@@ -17,6 +17,12 @@ class VoterInfoFragment : Fragment() {
 
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_voter_info, container, false)
 
+        // Get argument from Bundle
+        val electionArgs = VoterInfoFragmentArgs.fromBundle(requireArguments()).election
+
+        // Bind argument to election
+        binding.election = electionArgs
+
         //TODO: Add ViewModel values and create ViewModel
 
         //TODO: Add binding values
