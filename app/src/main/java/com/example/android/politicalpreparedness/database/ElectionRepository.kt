@@ -2,36 +2,52 @@ package com.example.android.politicalpreparedness.database
 
 import android.util.Log
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import com.example.android.politicalpreparedness.network.CivicsApi
 import com.example.android.politicalpreparedness.network.models.Election
+import com.example.android.politicalpreparedness.network.models.Followed
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
-//enum class CivicApiStatus { LOADING, ERROR, DONE }
-
 class ElectionRepository(private val database: ElectionDatabase) {
 
+    // Created val and functions to populate live data for upcoming elections from the API
+    // and saved elections from local database
     val getAllElections: LiveData<List<Election>> = database.electionDao.getAllElections()
 
-    val getFollowedElections: LiveData<List<Election>> = database.electionDao.getFollowedElections(true)
+    val getFollowedElections: LiveData<List<Election>> = database.electionDao.getFollowedElections()
 
+    suspend fun insertFollowed(election: Election) {
+        withContext(Dispatchers.IO) {
+            database.electionDao.insertFollowed(
+                Followed(election.id)
+            )
+        }
+    }
 
+    suspend fun deleteFollowed(election: Election) {
+        withContext(Dispatchers.IO) {
+            database.electionDao.deleteFollowed(election.id)
+        }
+    }
 
-//    private val _status = MutableLiveData<CivicApiStatus>()
-//    val status: LiveData<CivicApiStatus>
-//        get() = _status
+    suspend fun isFollowed(election: Election): Boolean {
+        var flagIsFollowed: Boolean
+        withContext(Dispatchers.IO) {
+            val result = database.electionDao.getFollow(election.id)
+            flagIsFollowed = result > 0
+
+        }
+        Log.d(TAG, "FLAG IS FOLLOW: ${election.id}: $flagIsFollowed")
+        return flagIsFollowed
+    }
 
     suspend fun refreshElections() {
-//        _status.value = CivicApiStatus.LOADING
         withContext(Dispatchers.IO) {
             try {
-                val elections = CivicsApi.retrofitService.electionQuery().await().elections
+                val elections = CivicsApi.retrofitService.electionQuery().elections
                 database.electionDao.insertElection(*elections.toTypedArray())
-//                _status.value = CivicApiStatus.DONE
                 Log.d(TAG, elections.toString())
             } catch (err: Exception) {
-//                _status.value = CivicApiStatus.ERROR
                 Log.d(TAG, err.printStackTrace().toString())
             }
         }

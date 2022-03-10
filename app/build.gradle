@@ -30,6 +30,9 @@ android {
     }
     kotlinOptions {
         jvmTarget = JavaVersion.VERSION_1_8.toString()
+        freeCompilerArgs += [
+                "-Xjvm-default=all",
+        ]
     }
 }
 
@@ -75,6 +78,7 @@ dependencies {
     implementation "android.arch.work:work-runtime-ktx:$version_work"
 
     //Room
+    implementation "androidx.room:room-ktx:$version_room"
     implementation "androidx.room:room-runtime:$version_room"
     kapt "androidx.room:room-compiler:$version_room"
 

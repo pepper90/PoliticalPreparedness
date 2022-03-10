@@ -11,6 +11,10 @@
         <variable
             name="election"
             type="com.example.android.politicalpreparedness.network.models.Election" />
+
+        <variable
+            name="followed"
+            type="com.example.android.politicalpreparedness.network.models.Followed" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -90,13 +94,13 @@
             app:layout_constraintTop_toBottomOf="@id/state_correspondence_header"
             tools:text="@string/address_line"/>
 
-        <!-- TODO: Save election to Room -->
         <com.google.android.material.button.MaterialButton
             android:id="@+id/follow_btn"
             style="@style/MyFollowButton"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="@string/follow"
+            android:text="@{viewModel.followButtonState == true ? @string/unfollow : @string/follow}"
+            android:onClick="@{() -> viewModel.onFollowClick()}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />

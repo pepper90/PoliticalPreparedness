@@ -50,16 +50,20 @@ class ElectionsFragment: Fragment() {
             }
         }
 
-        //TODO: Initiate recycler adapters
+        // Initiated recycler adapters
         binding.upcomingElectionsRv.adapter = ElectionListAdapter(
             ElectionListener { election ->
                 viewModel.onElectionClicked(election)
             }
         )
 
+        binding.savedElectionsRv.adapter = ElectionListAdapter(
+            ElectionListener { election ->
+                viewModel.onElectionClicked(election)
+            }
+        )
 
 
-        //TODO: Populate recycler adapters
         return binding.root
     }
 

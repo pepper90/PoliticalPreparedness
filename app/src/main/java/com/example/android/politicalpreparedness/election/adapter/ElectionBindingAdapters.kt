@@ -1,5 +1,6 @@
 package com.example.android.politicalpreparedness.election.adapter
 
+import android.content.res.Resources
 import android.text.format.DateUtils
 import android.view.View
 import android.widget.ImageView
@@ -9,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.android.politicalpreparedness.R
 //import com.example.android.politicalpreparedness.election.CivicApiStatus
 import com.example.android.politicalpreparedness.network.models.Election
+import com.google.android.material.button.MaterialButton
 import java.util.*
 
 @BindingAdapter("textDate")

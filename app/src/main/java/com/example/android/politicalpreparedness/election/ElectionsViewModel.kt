@@ -27,24 +27,8 @@ class ElectionsViewModel(application: Application): AndroidViewModel(application
         get() = electionRepository.getAllElections
 
     //Live data val for saved elections
-    private val _savedElectionsResponse = MutableLiveData<ElectionResponse>()
-    val savedElectionsResponse: LiveData<ElectionResponse>
-        get() = _savedElectionsResponse
-
-
-    //TODO: Create val and functions to populate live data for upcoming elections from the API and saved elections from local database
-//    fun getElections() {
-//        viewModelScope.launch {
-//            _status.value = CivicApiStatus.LOADING
-//            try {
-//                _upcomingElectionsResponse.value = CivicsApi.retrofitService.electionQuery()
-//                _status.value = CivicApiStatus.DONE
-//            } catch (e: Exception) {
-//                _status.value = CivicApiStatus.ERROR
-//                _upcomingElectionsResponse.value = null
-//            }
-//        }
-//    }
+    val followedElections: LiveData<List<Election>>
+        get() = electionRepository.getFollowedElections
 
     //Created functions to navigate to saved or upcoming election voter info
     private val _navigateToVoterInfo = MutableLiveData<Election?>()
