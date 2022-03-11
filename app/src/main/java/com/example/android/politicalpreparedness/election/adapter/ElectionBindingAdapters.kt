@@ -1,19 +1,50 @@
 package com.example.android.politicalpreparedness.election.adapter
 
-import android.content.res.Resources
+//import com.example.android.politicalpreparedness.election.CivicApiStatus
 import android.text.format.DateUtils
 import android.view.View
-import android.widget.ImageView
 import android.widget.TextView
 import androidx.databinding.BindingAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.example.android.politicalpreparedness.R
-//import com.example.android.politicalpreparedness.election.CivicApiStatus
+import com.example.android.politicalpreparedness.network.models.Address
 import com.example.android.politicalpreparedness.network.models.Election
-import com.google.android.material.button.MaterialButton
 import java.util.*
 
-@BindingAdapter("textDate")
+
+
+
+// Refresh adapters when fragment loads
+@BindingAdapter("listData")
+fun bindRecyclerView(recyclerView: RecyclerView, data: List<Election>?) {
+    val adapter = recyclerView.adapter as ElectionListAdapter
+    adapter.submitList(data)
+}
+
+@BindingAdapter("goneIfNotNull")
+fun goneIfNotNull(view: View, it: Any?) {
+    view.visibility = if (it != null) View.GONE else View.VISIBLE
+}
+
+// Hide views without provided data.
+@BindingAdapter("hideIfNull")
+fun hideIfNull(view: TextView, it: Any?) {
+    view.visibility = if (it !=null) View.VISIBLE else View.GONE
+}
+
+@BindingAdapter("addressFormat")
+fun addressFormat(view: TextView, address: Address?) {
+    hideIfNull(view, address)
+
+    val strAddress = StringBuilder()
+    if (!address?.line1.isNullOrBlank()) strAddress.append("${address?.line1}\n")
+    if (!address?.line2.isNullOrBlank()) strAddress.append("${address?.line2}\n")
+    if (!address?.city.isNullOrBlank()) strAddress.append("${address?.city}\n")
+    if (!address?.state.isNullOrBlank()) strAddress.append("${address?.state}\n")
+    if (!address?.zip.isNullOrBlank()) strAddress.append("${address?.zip}")
+    view.text = strAddress
+}
+
+@BindingAdapter("dateFormat")
 fun dateFormat(textView: TextView, value: Date?) {
     var localizedDate = ""
     if (value != null) {
@@ -25,17 +56,6 @@ fun dateFormat(textView: TextView, value: Date?) {
     }
 
     textView.text = localizedDate
-}
-
-@BindingAdapter("listData")
-fun bindRecyclerView(recyclerView: RecyclerView, data: List<Election>?) {
-    val adapter = recyclerView.adapter as ElectionListAdapter
-    adapter.submitList(data)
-}
-
-@BindingAdapter("goneIfNotNull")
-fun goneIfNotNull(view: View, it: Any?) {
-    view.visibility = if (it != null) View.GONE else View.VISIBLE
 }
 
 //@BindingAdapter("civicApiStatus")

@@ -34,7 +34,7 @@ class ElectionsFragment: Fragment() {
         //Initialize ViewModel
         binding.viewModel = viewModel
 
-        //TODO: Link elections to voter info
+        // Linked elections to voter info
         viewModel.navigateToDetailElection.observe(viewLifecycleOwner) { election ->
             if (election != null) {
                 findNavController().navigate(
@@ -63,12 +63,8 @@ class ElectionsFragment: Fragment() {
             }
         )
 
-
         return binding.root
     }
-
-    //TODO: Refresh adapters when fragment loads
-
 }
 
 private const val TAG = "FragmentElection"

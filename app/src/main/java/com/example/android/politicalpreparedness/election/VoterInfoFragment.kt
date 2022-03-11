@@ -1,5 +1,7 @@
 package com.example.android.politicalpreparedness.election
 
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.view.*
 import androidx.databinding.DataBindingUtil
@@ -23,30 +25,36 @@ class VoterInfoFragment : Fragment() {
         // Get argument from Bundle
         val electionArgs = VoterInfoFragmentArgs.fromBundle(requireArguments()).election
 
-        // Bind argument to election
+        // Added binding values
+        // Bind argument to election in xml
         binding.election = electionArgs
 
-        // Added ViewModel values and create ViewModel
+        // Added and created ViewModel
         viewModel = ViewModelProvider(
             this,
             VoterInfoViewModelFactory(requireActivity().application, electionArgs!!)
         )[VoterInfoViewModel::class.java]
 
+        // Bind VoterInfoViewModel to viewModel in xml
         binding.viewModel = viewModel
 
 
-        //TODO: Add binding values
-
-        //TODO: Populate voter info -- hide views without provided data.
         /**
         Hint: You will need to ensure proper data is provided from previous fragment.
         */
 
-        //TODO: Handle loading of URLs
-
+        // Handled loading of URLs
+        viewModel.redirect.observe(viewLifecycleOwner) {
+            loadURLIntent(it)
+        }
         return binding.root
     }
 
-    //TODO: Create method to load URL intents
-
+    // Created method to load URL intents
+    private fun loadURLIntent(strUri: String?) {
+        if (!strUri.isNullOrBlank()) {
+            val i = Intent(Intent.ACTION_VIEW, Uri.parse(strUri))
+            startActivity(i)
+        }
+    }
 }

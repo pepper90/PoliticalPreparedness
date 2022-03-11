@@ -27,15 +27,15 @@
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/upcoming_elections_rv"
+            listData="@{viewModel.upcomingElections}"
             android:layout_width="match_parent"
             android:layout_height="0dp"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_constraintBottom_toTopOf="@+id/view"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/upcoming_elections_header"
-            tools:listitem="@layout/item_election"
-            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-            listData="@{viewModel.upcomingElections}"/>
+            tools:listitem="@layout/item_election"/>
 
         <View
             android:id="@+id/view"
@@ -59,26 +59,29 @@
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/saved_elections_rv"
+            listData="@{viewModel.followedElections}"
             android:layout_width="match_parent"
             android:layout_height="0dp"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/saved_elections_header"
-            tools:listitem="@layout/item_election"
-            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-            listData="@{viewModel.followedElections}"/>
+            tools:listitem="@layout/item_election"/>
 
-        <ImageView
+        <ProgressBar
             android:id="@+id/status_image"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:contentDescription="@string/loading_spinner"
+            android:indeterminate="true"
+            android:indeterminateTint="@color/colorPrimaryDark"
+            android:indeterminateTintMode="src_atop"
+            app:goneIfNotNull="@{viewModel.upcomingElections}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:goneIfNotNull="@{viewModel.upcomingElections}"
-            android:contentDescription="@string/loading_spinner" />
+            app:layout_constraintTop_toTopOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

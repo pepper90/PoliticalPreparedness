@@ -12,9 +12,7 @@
             name="election"
             type="com.example.android.politicalpreparedness.network.models.Election" />
 
-        <variable
-            name="followed"
-            type="com.example.android.politicalpreparedness.network.models.Followed" />
+        <import type="android.view.View"/>
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -36,7 +34,7 @@
             style="@style/VoterInfoElectionDate"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:textDate="@{election.electionDay}"
+            app:dateFormat="@{election.electionDay}"
             app:layout_constraintTop_toBottomOf="@id/election_name"
             tools:text="12 November 2055"/>
 
@@ -47,24 +45,27 @@
             android:layout_height="wrap_content"
             android:text="@string/election_information"
             app:layout_constraintStart_toStartOf="@id/election_date"
-            app:layout_constraintTop_toBottomOf="@id/election_date"/>
+            app:layout_constraintTop_toBottomOf="@id/election_date"
+            android:visibility="@{viewModel.voterInfo.state[0].electionAdministrationBody.electionInfoUrl != null || viewModel.voterInfo.state[0].electionAdministrationBody.ballotInfoUrl != null ? View.VISIBLE : View.GONE}"/>
 
-        <!-- TODO: Add click binding to open web URL -->
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/state_locations"
             style="@style/VoterInfoElectionDetails"
+            hideIfNull="@{viewModel.voterInfo.state[0].electionAdministrationBody.electionInfoUrl}"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:onClick="@{() -> viewModel.loadURLs(viewModel.voterInfo.state[0].electionAdministrationBody.electionInfoUrl)}"
             android:text="@string/voting_locations"
             app:layout_constraintStart_toStartOf="@id/election_date"
             app:layout_constraintTop_toBottomOf="@id/state_header"/>
 
-        <!-- TODO: Add click binding to open web URL -->
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/state_ballot"
             style="@style/VoterInfoElectionDetails"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:onClick="@{() -> viewModel.loadURLs(viewModel.voterInfo.state[0].electionAdministrationBody.ballotInfoUrl)}"
+            hideIfNull = "@{viewModel.voterInfo.state[0].electionAdministrationBody.ballotInfoUrl}"
             android:text="@string/ballot_information"
             app:layout_constraintStart_toStartOf="@id/election_date"
             app:layout_constraintTop_toBottomOf="@id/state_locations"/>
@@ -77,17 +78,18 @@
 
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/state_correspondence_header"
-            style="@style/VoterInfoElectionDetails"
+            style="@style/VoterInfoElectionHeader"
+            hideIfNull="@{viewModel.voterInfo.state[0].electionAdministrationBody.correspondenceAddress}"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/correspondece_header"
             app:layout_constraintStart_toStartOf="@id/election_date"
             app:layout_constraintTop_toBottomOf="@id/state_ballot"/>
 
-        <!-- TODO: Add data binding -->
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/address"
             style="@style/VoterInfoElectionDetails"
+            addressFormat="@{viewModel.voterInfo.state[0].electionAdministrationBody.correspondenceAddress}"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:layout_constraintStart_toStartOf="@id/election_date"
@@ -99,8 +101,8 @@
             style="@style/MyFollowButton"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="@{viewModel.followButtonState == true ? @string/unfollow : @string/follow}"
             android:onClick="@{() -> viewModel.onFollowClick()}"
+            android:text="@{viewModel.followButtonState == true ? @string/unfollow : @string/follow}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
