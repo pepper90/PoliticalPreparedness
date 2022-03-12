@@ -10,35 +10,44 @@ import android.widget.ArrayAdapter
 import android.widget.AutoCompleteTextView
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
 import com.example.android.politicalpreparedness.R
 import com.example.android.politicalpreparedness.databinding.FragmentRepresentativeBinding
 import com.example.android.politicalpreparedness.network.models.Address
+import com.example.android.politicalpreparedness.representative.adapter.RepresentativeListAdapter
+import com.google.android.gms.location.FusedLocationProviderClient
 import java.util.Locale
 
 class DetailFragment : Fragment() {
 
     private lateinit var binding: FragmentRepresentativeBinding
-
+    //Declared ViewModel
+    private lateinit var viewModel: RepresentativeViewModel
+    private lateinit var fusedLocationClient: FusedLocationProviderClient
     companion object {
         //TODO: Add Constant for Location request
     }
-
-    //TODO: Declare ViewModel
 
     override fun onCreateView(inflater: LayoutInflater,
                               container: ViewGroup?,
                               savedInstanceState: Bundle?): View {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_representative, container, false)
 
+        // Established bindings
+        viewModel = ViewModelProvider(this)[RepresentativeViewModel::class.java]
+        binding.viewModel = viewModel
+        binding.lifecycleOwner = this
+
         // Bind states to AutoCompleteTextView
         val states = resources.getStringArray(R.array.states)
-        val adapter = ArrayAdapter(requireContext(), R.layout.dropdown_item_state, states)
-        (binding.state.editText as? AutoCompleteTextView)?.setAdapter(adapter)
-        //TODO: Establish bindings
+        val statesAdapter = ArrayAdapter(requireContext(), R.layout.dropdown_item_state, states)
+        (binding.state.editText as? AutoCompleteTextView)?.setAdapter(statesAdapter)
 
-        //TODO: Define and assign Representative adapter
 
-        //TODO: Populate Representative adapter
+
+        // Defined and assign Representative adapter
+        // Populated Representative adapter
+        binding.representativesRv.adapter = RepresentativeListAdapter()
 
         //TODO: Establish button listeners for field and location search
         return binding.root
