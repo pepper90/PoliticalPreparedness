@@ -6,6 +6,8 @@ import android.location.Location
 import android.os.Bundle
 import android.view.*
 import android.view.inputmethod.InputMethodManager
+import android.widget.ArrayAdapter
+import android.widget.AutoCompleteTextView
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import com.example.android.politicalpreparedness.R
@@ -27,6 +29,11 @@ class DetailFragment : Fragment() {
                               container: ViewGroup?,
                               savedInstanceState: Bundle?): View {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_representative, container, false)
+
+        // Bind states to AutoCompleteTextView
+        val states = resources.getStringArray(R.array.states)
+        val adapter = ArrayAdapter(requireContext(), R.layout.dropdown_item_state, states)
+        (binding.state.editText as? AutoCompleteTextView)?.setAdapter(adapter)
         //TODO: Establish bindings
 
         //TODO: Define and assign Representative adapter

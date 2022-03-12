@@ -2,5 +2,9 @@
 <resources>
     <dimen name="dp8">8dp</dimen>
     <dimen name="dp20">20dp</dimen>
+    <dimen name="dp15">15dp</dimen>
+
+    <dimen name="avatar">60dp</dimen>
+    <dimen name="social">35dp</dimen>
 
 </resources>

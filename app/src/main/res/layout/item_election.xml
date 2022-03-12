@@ -21,7 +21,7 @@
 
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/election_name"
-            style="@style/MyElectionName"
+            style="@style/MyItemTitle"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:text="@{election.name}"
@@ -32,7 +32,7 @@
 
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/election_date"
-            style="@style/MyElectionDate"
+            style="@style/MyItemSubtitle"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             app:layout_constraintEnd_toEndOf="parent"
