@@ -90,6 +90,7 @@
             android:id="@+id/address"
             style="@style/VoterInfoElectionDetails"
             addressFormat="@{viewModel.voterInfo.state[0].electionAdministrationBody.correspondenceAddress}"
+            android:onClick="@{() -> viewModel.loadURLs(viewModel.formatAddress(viewModel.voterInfo.state[0].electionAdministrationBody.correspondenceAddress))}"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:layout_constraintStart_toStartOf="@id/election_date"

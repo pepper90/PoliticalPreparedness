@@ -1,6 +1,7 @@
 package com.example.android.politicalpreparedness.utils
 
 import android.util.Log
+import com.example.android.politicalpreparedness.network.models.Address
 import com.example.android.politicalpreparedness.network.models.Division
 
 fun formatDivision(division: Division): String {
@@ -14,4 +15,15 @@ fun formatDivision(division: Division): String {
 
     Log.i("FormatDivision", strBuilder.toString())
     return strBuilder.toString()
+}
+
+fun formatAddress(address: Address?): String {
+    val strAddress = StringBuilder()
+    strAddress.append("geo:0,0?q=")
+    if (!address?.line1.isNullOrBlank()) strAddress.append("${address?.line1}+")
+    if (!address?.city.isNullOrBlank()) strAddress.append("${address?.city}+")
+    if (!address?.state.isNullOrBlank()) strAddress.append("${address?.state}+")
+    if (!address?.zip.isNullOrBlank()) strAddress.append("${address?.zip}")
+    Log.i("serviceVoterInfo", "--> ADDRESS: $strAddress")
+    return strAddress.toString()
 }

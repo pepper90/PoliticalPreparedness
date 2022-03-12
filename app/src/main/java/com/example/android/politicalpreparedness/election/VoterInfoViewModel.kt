@@ -7,6 +7,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.android.politicalpreparedness.database.ElectionRepository
 import com.example.android.politicalpreparedness.network.CivicsApi
+import com.example.android.politicalpreparedness.network.models.Address
 import com.example.android.politicalpreparedness.network.models.Election
 import com.example.android.politicalpreparedness.network.models.VoterInfoResponse
 import com.example.android.politicalpreparedness.utils.formatDivision
@@ -58,6 +59,10 @@ class VoterInfoViewModel(
 
     fun loadURLs(uri: String?) {
         _redirect.value = uri
+    }
+
+    fun formatAddress(address: Address?): String {
+        return formatAddress(address)
     }
 
     // Added method to save and remove elections to local database
