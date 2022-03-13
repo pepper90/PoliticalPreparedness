@@ -84,7 +84,7 @@
             android:id="@+id/state"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
             android:layout_width="0dp"
-            android:layout_height="0dp"
+            android:layout_height="wrap_content"
             android:layout_marginStart="5dp"
             app:layout_constraintBottom_toBottomOf="@id/city"
             app:layout_constraintEnd_toEndOf="parent"
@@ -135,7 +135,6 @@
             style="@style/MySearchButtons"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:onClick="@{() -> null}"
             android:text="@string/use_my_location"
             app:layout_constraintTop_toBottomOf="@id/button_search"/>
 
