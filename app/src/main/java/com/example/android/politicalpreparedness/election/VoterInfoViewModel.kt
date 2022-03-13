@@ -10,7 +10,8 @@ import com.example.android.politicalpreparedness.network.CivicsApi
 import com.example.android.politicalpreparedness.network.models.Address
 import com.example.android.politicalpreparedness.network.models.Election
 import com.example.android.politicalpreparedness.network.models.VoterInfoResponse
-import com.example.android.politicalpreparedness.utils.formatDivision
+import com.example.android.politicalpreparedness.utils.addressFormat
+import com.example.android.politicalpreparedness.utils.divisionFormat
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -44,7 +45,7 @@ class VoterInfoViewModel(
     private suspend fun loadVoterInfoData() {
         try {
             withContext(Dispatchers.Main) {
-                val division = formatDivision(election.division)
+                val division = divisionFormat(election.division)
                 _voterInfo.postValue(CivicsApi.retrofitService.voterInfoQuery(division, election.id))
             }
         } catch (err: Exception) {
@@ -62,7 +63,7 @@ class VoterInfoViewModel(
     }
 
     fun formatAddress(address: Address?): String {
-        return formatAddress(address)
+        return addressFormat(address)
     }
 
     // Added method to save and remove elections to local database

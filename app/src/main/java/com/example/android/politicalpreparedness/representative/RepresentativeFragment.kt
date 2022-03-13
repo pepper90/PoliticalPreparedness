@@ -16,6 +16,7 @@ import com.example.android.politicalpreparedness.databinding.FragmentRepresentat
 import com.example.android.politicalpreparedness.network.models.Address
 import com.example.android.politicalpreparedness.representative.adapter.RepresentativeListAdapter
 import com.google.android.gms.location.FusedLocationProviderClient
+import com.google.android.gms.location.LocationServices
 import java.util.Locale
 
 class DetailFragment : Fragment() {
@@ -25,7 +26,8 @@ class DetailFragment : Fragment() {
     private lateinit var viewModel: RepresentativeViewModel
     private lateinit var fusedLocationClient: FusedLocationProviderClient
     companion object {
-        //TODO: Add Constant for Location request
+        private const val REQUEST_LOCATION_PERMISSION = 33
+        private const val TAG = "RepresentativeFragment"
     }
 
     override fun onCreateView(inflater: LayoutInflater,
@@ -43,13 +45,29 @@ class DetailFragment : Fragment() {
         val statesAdapter = ArrayAdapter(requireContext(), R.layout.dropdown_item_state, states)
         (binding.state.editText as? AutoCompleteTextView)?.setAdapter(statesAdapter)
 
-
+        // Initialize location client
+        fusedLocationClient = LocationServices.getFusedLocationProviderClient(requireActivity())
 
         // Defined and assign Representative adapter
-        // Populated Representative adapter
         binding.representativesRv.adapter = RepresentativeListAdapter()
 
-        //TODO: Establish button listeners for field and location search
+        // Established button listener for field search
+        binding.buttonSearch.setOnClickListener {
+            // Hide keyboard
+            hideKeyboard()
+
+            // Tak user input and convert it to address
+            viewModel.getAddress(formatInputToAddress())
+
+            // Search the representatives with the address
+            viewModel.loadRepresentativesData()
+        }
+
+        // Establish button listener for location search
+        binding.buttonLocation.setOnClickListener {
+            hideKeyboard()
+//            checkLocationPermissions()
+        }
         return binding.root
     }
 
@@ -83,6 +101,16 @@ class DetailFragment : Fragment() {
                     Address(address.thoroughfare, address.subThoroughfare, address.locality, address.adminArea, address.postalCode)
                 }
                 .first()
+    }
+
+    private fun formatInputToAddress(): Address {
+        return Address(
+            line1 = binding.addressLine1.editText?.text.toString(),
+            line2 = binding.addressLine2.editText?.text.toString(),
+            city = binding.city.editText?.text.toString(),
+            state = binding.state.editText?.text.toString(),
+            zip = binding.zip.editText?.text.toString()
+        )
     }
 
     private fun hideKeyboard() {

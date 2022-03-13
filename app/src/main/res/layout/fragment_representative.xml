@@ -7,6 +7,7 @@
         <variable
             name="viewModel"
             type="com.example.android.politicalpreparedness.representative.RepresentativeViewModel" />
+
     </data>
 
     <androidx.constraintlayout.motion.widget.MotionLayout
@@ -24,7 +25,6 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"/>
 
-        <!-- TODO: Add data binding value -->
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/address_line_1"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
@@ -38,11 +38,11 @@
                 android:layout_height="wrap_content"
                 android:autofillHints=""
                 android:hint="@string/address_line_1"
-                android:inputType="textPostalAddress" />
+                android:inputType="textPostalAddress"
+                android:text="@{viewModel.address.line1}" />
 
         </com.google.android.material.textfield.TextInputLayout>
 
-        <!-- TODO: Add data binding value -->
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/address_line_2"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
@@ -56,11 +56,11 @@
                 android:layout_height="wrap_content"
                 android:autofillHints=""
                 android:hint="@string/address_line_2"
-                android:inputType="textPostalAddress"/>
+                android:inputType="textPostalAddress"
+                android:text="@{viewModel.address.line2}"/>
 
         </com.google.android.material.textfield.TextInputLayout>
 
-        <!-- TODO: Add data binding value -->
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/city"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
@@ -75,17 +75,17 @@
                 android:layout_height="wrap_content"
                 android:autofillHints=""
                 android:hint="@string/city"
-                android:inputType="textPostalAddress"/>
+                android:inputType="textPostalAddress"
+                android:text="@{viewModel.address.city}"/>
 
         </com.google.android.material.textfield.TextInputLayout>
 
-        <!-- TODO: Add data binding value -->
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/state"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:layout_marginStart="5dp"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
             app:layout_constraintBottom_toBottomOf="@id/city"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/city"
@@ -94,14 +94,14 @@
             <AutoCompleteTextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="textPostalAddress"
-                android:entries="@array/states"
                 android:autofillHints=""
-                android:hint="@string/state" />
+                android:entries="@array/states"
+                android:hint="@string/state"
+                android:inputType="textPostalAddress"
+                android:text="@{viewModel.address.state}" />
 
         </com.google.android.material.textfield.TextInputLayout>
 
-        <!-- TODO: Add data binding value -->
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/zip"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
@@ -117,7 +117,8 @@
                 android:autofillHints=""
                 android:hint="@string/zip"
                 android:inputType="number"
-                android:maxLength="5"/>
+                android:maxLength="5"
+                android:text="@{viewModel.address.zip}"/>
 
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -126,7 +127,6 @@
             style="@style/MySearchButtons"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:onClick="@null"
             android:text="@string/find_my_representatives"
             app:layout_constraintTop_toBottomOf="@id/zip"/>
 
@@ -135,7 +135,7 @@
             style="@style/MySearchButtons"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:onClick="@null"
+            android:onClick="@{() -> null}"
             android:text="@string/use_my_location"
             app:layout_constraintTop_toBottomOf="@id/button_search"/>
 

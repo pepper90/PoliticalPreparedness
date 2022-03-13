@@ -21,7 +21,8 @@
             android:contentDescription="@string/representative_photo"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/ic_profile" />
+            app:srcCompat="@drawable/ic_profile"
+            profileImage="@{representative.official.photoUrl}"/>
 
         <TextView
             android:id="@+id/representative_tv"

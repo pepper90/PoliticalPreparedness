@@ -6,10 +6,16 @@ import android.widget.Spinner
 import androidx.core.net.toUri
 import androidx.databinding.BindingAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
+import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
+import com.bumptech.glide.request.RequestOptions
+import com.example.android.politicalpreparedness.R
 import com.example.android.politicalpreparedness.election.adapter.ElectionListAdapter
 import com.example.android.politicalpreparedness.network.models.Election
 import com.example.android.politicalpreparedness.representative.model.Representative
 
+
+// Populated Representative adapter
 // Refresh adapter when fragment loads
 @BindingAdapter("listData")
 fun bindRecyclerView(recyclerView: RecyclerView, data: List<Representative>?) {
@@ -21,7 +27,17 @@ fun bindRecyclerView(recyclerView: RecyclerView, data: List<Representative>?) {
 fun fetchImage(view: ImageView, src: String?) {
     src?.let {
         val uri = src.toUri().buildUpon().scheme("https").build()
-        //TODO: Add Glide call to load image and circle crop - user ic_profile as a placeholder and for errors.
+        // Added Glide call to load image and circle crop - user ic_profile as a placeholder and for errors.
+        Glide.with(view.context)
+            .load(uri)
+            .apply(
+                RequestOptions()
+                .placeholder(R.drawable.loading_animation)
+                .error(R.drawable.ic_profile)
+                .circleCrop()
+            )
+            .transition(DrawableTransitionOptions.withCrossFade())
+            .into(view)
     }
 }
 
