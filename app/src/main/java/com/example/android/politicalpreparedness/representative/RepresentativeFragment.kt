@@ -2,6 +2,8 @@ package com.example.android.politicalpreparedness.representative
 
 import android.Manifest
 import android.annotation.SuppressLint
+import android.annotation.TargetApi
+import android.app.AlertDialog
 import android.content.Context
 import android.content.pm.PackageManager
 import android.location.Geocoder
@@ -72,45 +74,114 @@ class DetailFragment : Fragment() {
         // Establish button listener for location search
         binding.buttonLocation.setOnClickListener {
             hideKeyboard()
-            checkLocationPermissions()
+//            checkBackgroundLocationPermissionAPI30()
+//            checkLocationPermissionAPI28()
+            checkLocationPermissionAPI29()
+//            checkBackgroundLocationPermissionAPI30()
+//            checkLocationPermissions()
         }
 
         return binding.root
     }
 
-    @Suppress("DEPRECATION")
-    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-        // Handled location permission result to get location on permission granted
-        if (requestCode == REQUEST_LOCATION_PERMISSION) {
-            if (grantResults.isNotEmpty() && (grantResults[0] == PackageManager.PERMISSION_GRANTED)) {
-                getLocation()
-            }
-        }
-    }
+//    @Suppress("DEPRECATION")
+//    @TargetApi(28)
+//    fun checkLocationPermissionAPI28() {
+//        if (checkSinglePermission(Manifest.permission.ACCESS_FINE_LOCATION) ||
+//            checkSinglePermission(Manifest.permission.ACCESS_COARSE_LOCATION)) {
+//            getLocation()
+//        } else {
+//            val permList = arrayOf(
+//                Manifest.permission.ACCESS_FINE_LOCATION,
+//                Manifest.permission.ACCESS_COARSE_LOCATION
+//            )
+//            ActivityCompat.requestPermissions(
+//                requireActivity(),
+//                permList,
+//                REQUEST_LOCATION_PERMISSION)
+//        }
+//    }
 
-    private fun checkLocationPermissions(): Boolean {
-        return if (isPermissionGranted()) {
+
+    @Suppress("DEPRECATION")
+    @TargetApi(29)
+    private fun checkLocationPermissionAPI29() {
+        if (checkSinglePermission(Manifest.permission.ACCESS_FINE_LOCATION) &&
+            checkSinglePermission(Manifest.permission.ACCESS_COARSE_LOCATION) &&
+            checkSinglePermission(Manifest.permission.ACCESS_BACKGROUND_LOCATION)) {
             getLocation()
-            true
         } else {
-            // Request Location permissions
+            val permList = arrayOf(
+                Manifest.permission.ACCESS_FINE_LOCATION,
+                Manifest.permission.ACCESS_COARSE_LOCATION,
+                Manifest.permission.ACCESS_BACKGROUND_LOCATION
+            )
             ActivityCompat.requestPermissions(
                 requireActivity(),
-                arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),
-                REQUEST_LOCATION_PERMISSION
-            )
-            false
+                permList,
+                REQUEST_LOCATION_PERMISSION)
         }
     }
 
-    private fun isPermissionGranted() : Boolean {
-        // Check if permission is already granted and return (true = granted, false = denied/other)
-        return ContextCompat.checkSelfPermission(
-            requireActivity(),
-            Manifest.permission.ACCESS_FINE_LOCATION
-        ) == PackageManager.PERMISSION_GRANTED
+//    @Suppress("DEPRECATION")
+//    @TargetApi(30)
+//    private fun checkBackgroundLocationPermissionAPI30() {
+//        if (checkSinglePermission(Manifest.permission.ACCESS_BACKGROUND_LOCATION)) return
+//        AlertDialog.Builder(requireContext())
+//            .setTitle(R.string.background_location_permission_title)
+//            .setMessage(R.string.background_location_permission_message)
+//            .setPositiveButton(R.string.yes) { _,_ ->
+//                // this request will take user to Application's Setting page
+//                requestPermissions(arrayOf(Manifest.permission.ACCESS_BACKGROUND_LOCATION), REQUEST_LOCATION_PERMISSION)
+//                getLocation()
+//            }
+//            .setNegativeButton(R.string.no) { dialog,_ ->
+//                dialog.dismiss()
+//            }
+//            .create()
+//            .show()
+//
+//    }
+
+
+    private fun checkSinglePermission(permission: String) : Boolean {
+        return ContextCompat.checkSelfPermission(requireContext(), permission) == PackageManager.PERMISSION_GRANTED
     }
+
+
+//    @Suppress("DEPRECATION")
+//    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
+//        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+//        // Handled location permission result to get location on permission granted
+//        if (requestCode == REQUEST_LOCATION_PERMISSION) {
+//            if (grantResults.isNotEmpty() && (grantResults[0] == PackageManager.PERMISSION_GRANTED)) {
+//                getLocation()
+//            }
+//        }
+//    }
+
+//    private fun checkLocationPermissions(): Boolean {
+//        return if (isPermissionGranted()) {
+//            getLocation()
+//            true
+//        } else {
+//            // Request Location permissions
+//            ActivityCompat.requestPermissions(
+//                requireActivity(),
+//                arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),
+//                REQUEST_LOCATION_PERMISSION
+//            )
+//            false
+//        }
+//    }
+
+//    private fun isPermissionGranted() : Boolean {
+//        // Check if permission is already granted and return (true = granted, false = denied/other)
+//        return ContextCompat.checkSelfPermission(
+//            requireActivity(),
+//            Manifest.permission.ACCESS_FINE_LOCATION
+//        ) == PackageManager.PERMISSION_GRANTED
+//    }
 
     private val locationCallback = object : LocationCallback() {
         override fun onLocationResult(p0: LocationResult) {
