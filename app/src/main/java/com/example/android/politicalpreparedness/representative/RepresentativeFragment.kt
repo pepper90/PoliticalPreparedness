@@ -2,21 +2,19 @@ package com.example.android.politicalpreparedness.representative
 
 import android.Manifest
 import android.annotation.SuppressLint
-import android.annotation.TargetApi
-import android.app.AlertDialog
 import android.content.Context
-import android.content.pm.PackageManager
 import android.location.Geocoder
 import android.location.Location
 import android.os.Bundle
 import android.os.Looper
 import android.util.Log
-import android.view.*
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
 import android.widget.ArrayAdapter
 import android.widget.AutoCompleteTextView
-import androidx.core.app.ActivityCompat
-import androidx.core.content.ContextCompat
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
@@ -25,7 +23,8 @@ import com.example.android.politicalpreparedness.databinding.FragmentRepresentat
 import com.example.android.politicalpreparedness.network.models.Address
 import com.example.android.politicalpreparedness.representative.adapter.RepresentativeListAdapter
 import com.google.android.gms.location.*
-import java.util.Locale
+import com.google.android.material.snackbar.Snackbar
+import java.util.*
 
 class DetailFragment : Fragment() {
 
@@ -33,10 +32,33 @@ class DetailFragment : Fragment() {
     //Declared ViewModel
     private lateinit var viewModel: RepresentativeViewModel
     private lateinit var fusedLocationClient: FusedLocationProviderClient
+
     companion object {
-        private const val REQUEST_LOCATION_PERMISSION = 33
         private const val TAG = "RepresentativeFragment"
     }
+
+    // Location permission request
+    private val locationPermissionRequest = registerForActivityResult(
+        ActivityResultContracts.RequestMultiplePermissions()
+    ) { permissions ->
+        if (permissions[Manifest.permission.ACCESS_FINE_LOCATION] == true &&
+            permissions[Manifest.permission.ACCESS_COARSE_LOCATION] == true
+        ) {
+            getLocation()
+        } else {
+            Snackbar.make(
+                requireView(),
+                R.string.location_permission_message,
+                Snackbar.LENGTH_SHORT).show()
+        }
+    }
+
+    // Location permission request Launcher
+    private fun locationPermissionRequestLauncher() {
+        locationPermissionRequest.launch(arrayOf(
+            Manifest.permission.ACCESS_FINE_LOCATION,
+            Manifest.permission.ACCESS_COARSE_LOCATION))
+        }
 
     override fun onCreateView(inflater: LayoutInflater,
                               container: ViewGroup?,
@@ -74,114 +96,11 @@ class DetailFragment : Fragment() {
         // Establish button listener for location search
         binding.buttonLocation.setOnClickListener {
             hideKeyboard()
-//            checkBackgroundLocationPermissionAPI30()
-//            checkLocationPermissionAPI28()
-            checkLocationPermissionAPI29()
-//            checkBackgroundLocationPermissionAPI30()
-//            checkLocationPermissions()
+            locationPermissionRequestLauncher()
         }
 
         return binding.root
     }
-
-//    @Suppress("DEPRECATION")
-//    @TargetApi(28)
-//    fun checkLocationPermissionAPI28() {
-//        if (checkSinglePermission(Manifest.permission.ACCESS_FINE_LOCATION) ||
-//            checkSinglePermission(Manifest.permission.ACCESS_COARSE_LOCATION)) {
-//            getLocation()
-//        } else {
-//            val permList = arrayOf(
-//                Manifest.permission.ACCESS_FINE_LOCATION,
-//                Manifest.permission.ACCESS_COARSE_LOCATION
-//            )
-//            ActivityCompat.requestPermissions(
-//                requireActivity(),
-//                permList,
-//                REQUEST_LOCATION_PERMISSION)
-//        }
-//    }
-
-
-    @Suppress("DEPRECATION")
-    @TargetApi(29)
-    private fun checkLocationPermissionAPI29() {
-        if (checkSinglePermission(Manifest.permission.ACCESS_FINE_LOCATION) &&
-            checkSinglePermission(Manifest.permission.ACCESS_COARSE_LOCATION) &&
-            checkSinglePermission(Manifest.permission.ACCESS_BACKGROUND_LOCATION)) {
-            getLocation()
-        } else {
-            val permList = arrayOf(
-                Manifest.permission.ACCESS_FINE_LOCATION,
-                Manifest.permission.ACCESS_COARSE_LOCATION,
-                Manifest.permission.ACCESS_BACKGROUND_LOCATION
-            )
-            ActivityCompat.requestPermissions(
-                requireActivity(),
-                permList,
-                REQUEST_LOCATION_PERMISSION)
-        }
-    }
-
-//    @Suppress("DEPRECATION")
-//    @TargetApi(30)
-//    private fun checkBackgroundLocationPermissionAPI30() {
-//        if (checkSinglePermission(Manifest.permission.ACCESS_BACKGROUND_LOCATION)) return
-//        AlertDialog.Builder(requireContext())
-//            .setTitle(R.string.background_location_permission_title)
-//            .setMessage(R.string.background_location_permission_message)
-//            .setPositiveButton(R.string.yes) { _,_ ->
-//                // this request will take user to Application's Setting page
-//                requestPermissions(arrayOf(Manifest.permission.ACCESS_BACKGROUND_LOCATION), REQUEST_LOCATION_PERMISSION)
-//                getLocation()
-//            }
-//            .setNegativeButton(R.string.no) { dialog,_ ->
-//                dialog.dismiss()
-//            }
-//            .create()
-//            .show()
-//
-//    }
-
-
-    private fun checkSinglePermission(permission: String) : Boolean {
-        return ContextCompat.checkSelfPermission(requireContext(), permission) == PackageManager.PERMISSION_GRANTED
-    }
-
-
-//    @Suppress("DEPRECATION")
-//    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
-//        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-//        // Handled location permission result to get location on permission granted
-//        if (requestCode == REQUEST_LOCATION_PERMISSION) {
-//            if (grantResults.isNotEmpty() && (grantResults[0] == PackageManager.PERMISSION_GRANTED)) {
-//                getLocation()
-//            }
-//        }
-//    }
-
-//    private fun checkLocationPermissions(): Boolean {
-//        return if (isPermissionGranted()) {
-//            getLocation()
-//            true
-//        } else {
-//            // Request Location permissions
-//            ActivityCompat.requestPermissions(
-//                requireActivity(),
-//                arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),
-//                REQUEST_LOCATION_PERMISSION
-//            )
-//            false
-//        }
-//    }
-
-//    private fun isPermissionGranted() : Boolean {
-//        // Check if permission is already granted and return (true = granted, false = denied/other)
-//        return ContextCompat.checkSelfPermission(
-//            requireActivity(),
-//            Manifest.permission.ACCESS_FINE_LOCATION
-//        ) == PackageManager.PERMISSION_GRANTED
-//    }
 
     private val locationCallback = object : LocationCallback() {
         override fun onLocationResult(p0: LocationResult) {

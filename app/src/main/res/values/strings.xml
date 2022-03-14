@@ -25,9 +25,6 @@
     <string name="twitter_icon">Twitter icon</string>
     <string name="facebook_icon">Facebook icon</string>
     <string name="web_icon">Web icon</string>
-    <string name="yes">Yes</string>
-    <string name="no">No</string>
-    <string name="background_location_permission_title">Location services</string>
-    <string name="background_location_permission_message">You need to grant location permission in order to select the location.</string>
+    <string name="location_permission_message">You need to grant location permission in order to load representatives.</string>
 
 </resources>
